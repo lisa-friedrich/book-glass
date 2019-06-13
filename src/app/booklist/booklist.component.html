@@ -1,3 +1,15 @@
-<p>
-  booklist works!
-</p>
+<diV>
+  <h1>Deine Bücher</h1>
+  <app-searchbar (searchTerm)='searchBook($event)'></app-searchbar>
+  <div class="book_container">
+    <div class="book_holder"
+      *ngFor="let book of booklist | bookfilter: {title: searchText, author:searchText,  isbn: searchText};">
+      <div>
+        <p>{{book.title}}</p>
+        <P>{{book.author}}</P>
+        <p>{{book.isbn}}</p>
+      </div>
+      <div class="delete" (click)="deleteBook(book.id)"></div>
+    </div>
+  </div>
+</diV>

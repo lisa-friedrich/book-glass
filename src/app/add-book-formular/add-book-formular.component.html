@@ -1,3 +1,25 @@
-<p>
-  add-book-formular works!
-</p>
+<diV>
+  <h1>Neues Buch hinzufügen</h1>
+  <div class="frow">
+    <div class="input_wrapper" [ngClass]="{filled: bookdata.title}" data-label="Buchtitel">
+      <input type="text" [(ngModel)]="bookdata.title">
+    </div>
+  </div>
+  <div class="frow">
+    <div class="input_wrapper" [ngClass]="{filled: bookdata.author}" data-label="Autor">
+      <input type="text" [(ngModel)]="bookdata.author">
+    </div>
+  </div>
+  <div class="frow">
+    <div class="input_wrapper" [ngClass]="{filled: bookdata.isbn}" data-label="isbn">
+      <input type="text" [(ngModel)]="bookdata.isbn">
+    </div>
+  </div>
+  <div class="frow">
+    <button type="reset" (click)="resetBookData()">abbrechen</button>
+    <button type="submit" (click)="saveBookData()">speichern</button>
+  </div>
+  <div class="frow message" *ngIf="message">
+    <p>{{message}}</p>
+  </div>
+</diV>

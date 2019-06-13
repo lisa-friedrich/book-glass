@@ -1,0 +1,24 @@
+@import '../variables.scss';
+
+* {
+  box-sizing: border-box;
+}
+
+div.menu_container {
+    position: fixed;
+    bottom: 0px;
+    left: 0;
+    height: 40px;
+    width: 100%;
+    border: 1px gainsboro solid;
+    display: flex;
+
+    .menu_item  {
+      flex: 1;
+      height: 40px;
+      background-color: $base;
+      text-align: center;
+      line-height: 2.3em;
+      color: white;
+    }
+}

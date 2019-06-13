@@ -1,24 +1,30 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
-import { AddBookFormularComponent } from './add-book-formular/add-book-formular.component';
-import { BooklistComponent } from './booklist/booklist.component';
-import { DisplayBookComponent } from './display-book/display-book.component';
 import { MenuComponent } from './menu/menu.component';
+import { BooklistComponent } from './booklist/booklist.component';
+import { AddBookFormularComponent } from './add-book-formular/add-book-formular.component';
+import { DisplayBookComponent } from './display-book/display-book.component';
+import { SearchbarComponent } from './booklist/searchbar/searchbar.component';
 import { BookFilterPipe } from './book-filter.pipe';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    AddBookFormularComponent,
-    BooklistComponent,
-    DisplayBookComponent,
     MenuComponent,
-    BookFilterPipe
+    BooklistComponent,
+    AddBookFormularComponent,
+    DisplayBookComponent,
+    SearchbarComponent,
+    BookFilterPipe,
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

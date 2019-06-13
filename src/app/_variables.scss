@@ -1,0 +1,18 @@
+$base: #3AA9A1;
+$highlight: #64C4BD;
+$dark: #808080;
+$white: #FFFFFF;
+$alert: #F7AB71;
+
+
+* {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+} 
+
+h1 {
+  font-size: 1.5em;
+  text-align: center;
+  margin: 40px 0;
+  color: $dark;
+}
