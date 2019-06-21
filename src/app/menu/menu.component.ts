@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 
 @Component({
@@ -7,15 +7,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
-  @Output() selectedview = new EventEmitter<string>();
-
-
   constructor() { }
 
-  ngOnInit() {
-  }
-
-  changeView(selected) {
-    this.selectedview.emit(selected);
-  };
+  ngOnInit() { }
 }
