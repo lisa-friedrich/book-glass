@@ -3,11 +3,11 @@
   <app-searchbar (searchTerm)='searchBook($event)'></app-searchbar>
   <div class="book_container">
     <div class="book_holder"
-      *ngFor="let book of booklist | bookfilter: {title: searchText, author:searchText,  isbn: searchText};">
+      *ngFor="let book of booklist.rows | bookfilter: {title: searchText, author:searchText,  isbn: searchText};">
       <div>
-        <p>{{book.title}}</p>
-        <P>{{book.author}}</P>
-        <p>{{book.isbn}}</p>
+        <p>{{book.doc.title}}</p>
+        <p>{{book.doc.author}}</p>
+        <p>{{book.doc.isbn}}</p>
       </div>
       <div class="delete" (click)="deleteBook(book.id)"></div>
     </div>

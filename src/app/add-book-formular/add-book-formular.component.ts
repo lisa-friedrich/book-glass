@@ -21,7 +21,6 @@ export class AddBookFormularComponent implements OnInit {
   saveBookData() {
     this.message = '';
     if (this.bookdata.title && this.bookdata.author) {
-      this.bookService.saveBook('');
       const response = this.bookService.saveBook(this.bookdata);
       if (response) {
         this.resetBookData();

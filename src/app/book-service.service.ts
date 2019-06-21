@@ -1,26 +1,48 @@
 import { Injectable } from '@angular/core';
 import { Book } from './book';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { map } from "rxjs/operators";
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BookServiceService {
   booklist: any;
+  private _dbURL = 'http://localhost:5984/';
   constructor(private http: HttpClient) { }
 
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+    })
+  };
+
+  returnBookList() {
+    if (!this.booklist) {
+      this.getBookList().subscribe(data => {
+        this.booklist = data;
+        return this.booklist;
+      });
+    } else {
+      return this.booklist;
+    }
+  }
+
   saveBook(bookdata) {
+    //get id with http://127.0.0.1:5984/_uuids
+    //http put http://127.0.0.1:5984/books/id
     let pass = true;
     const key = 'book' + this.makeRandom();
-    for (const book of this.booklist) {
+    for (const book of this.booklist.rows) {
       // tslint:disable-next-line: no-unused-expression
-      (book.title === bookdata.title && book.author === bookdata.author) && (pass = false);
+      (book.doc.title === bookdata.title && book.doc.author === bookdata.author) && (pass = false);
     }
 
     if (pass) {
       bookdata.id = key;
-      this.booklist.push(bookdata);
-      localStorage.setItem('booklist', JSON.stringify(this.booklist));
+      //  this.booklist.push(bookdata);
+      // localStorage.setItem('booklist', JSON.stringify(this.booklist));
 
       return true;
     } else {
@@ -41,11 +63,10 @@ export class BookServiceService {
 
 
   getBookList() {
-    this.booklist = JSON.parse(localStorage.getItem('booklist'));
-    // tslint:disable-next-line: no-unused-expression
-    (this.booklist === null) && localStorage.setItem('booklist', '[]');
-
-    return this.booklist;
+    return this.http.get(this._dbURL + 'books/_all_docs?include_docs=true', this.httpOptions).pipe(map(data => {
+      this.booklist = data;
+      return this.booklist;
+    }));
   }
 
   getBook() {

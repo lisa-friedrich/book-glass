@@ -14,7 +14,6 @@ export class DisplayBookComponent implements OnInit {
   constructor(private bookService: BookServiceService) { }
 
   ngOnInit() {
-    this.bookService.getBookList();
   }
 
   displayBook() {
