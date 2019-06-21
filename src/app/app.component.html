@@ -1,4 +1,2 @@
-<app-display-book *ngIf="view == 'main'"></app-display-book>
-<app-booklist *ngIf="view == 'book_list'"></app-booklist>
-<app-add-book-formular *ngIf="view == 'new_book'"></app-add-book-formular>
+<router-outlet></router-outlet>
 <app-menu (selectedview)="view = $event"></app-menu>
