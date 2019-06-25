@@ -6,6 +6,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class BookFilterPipe implements PipeTransform {
 
   transform(items: any[], filter: any, defaultFilter: boolean): any {
+    console.log(items);
+    console.log(filter);
     if (!filter) {
       return items;
     }
@@ -22,8 +24,9 @@ export class BookFilterPipe implements PipeTransform {
             (x && new RegExp(filter[keyName], 'gi').test(item[keyName])) || filter[keyName] === '', true));
       } else {
         return items.filter(item => {
+          console.log(item);
           return filterKeys.some((keyName) => {
-            return new RegExp(filter[keyName], 'gi').test(item[keyName]) || filter[keyName] === '';
+            return new RegExp(filter[keyName], 'gi').test(item.doc[keyName]) || filter[keyName] === '';
           });
         });
       }

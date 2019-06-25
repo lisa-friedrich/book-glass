@@ -8,7 +8,7 @@ import { BookServiceService } from '../service/book-service.service';
 })
 export class BooklistComponent implements OnInit {
   objectKeys = Object.keys;
-  booklist: any;
+  booklist: any = { rows: [] };
   searchText: string;
   constructor(private bookservice: BookServiceService) { }
 

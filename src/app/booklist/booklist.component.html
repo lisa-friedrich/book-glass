@@ -2,6 +2,7 @@
   <h1>Deine Bücher</h1>
   <app-searchbar (searchTerm)='searchBook($event)'></app-searchbar>
   <div class="book_container">
+
     <div class="book_holder"
       *ngFor="let book of booklist.rows | bookfilter: {title: searchText, author:searchText,  isbn: searchText};">
       <div>

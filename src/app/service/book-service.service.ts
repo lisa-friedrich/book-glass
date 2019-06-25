@@ -1,26 +1,35 @@
 import { Injectable } from '@angular/core';
 import { Book } from '../book';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { map } from "rxjs/operators";
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BookServiceService {
   booklist: any;
+  private _dbURL = 'http://localhost:5984/';
   constructor(private http: HttpClient) { }
+
+  private httpOptions = {
+    header: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  };
 
   saveBook(bookdata) {
     let pass = true;
     const key = 'book' + this.makeRandom();
-    for (const book of this.booklist) {
+    for (const book of this.booklist.rows) {
       // tslint:disable-next-line: no-unused-expression
-      (book.title === bookdata.title && book.author === bookdata.author) && (pass = false);
+      (book.doc.title === bookdata.title && book.doc.author === bookdata.author) && (pass = false);
     }
 
     if (pass) {
       bookdata.id = key;
-      this.booklist.push(bookdata);
-      localStorage.setItem('booklist', JSON.stringify(this.booklist));
+      //this.booklist.push(bookdata);
+      //localStorage.setItem('booklist', JSON.stringify(this.booklist));
 
       return true;
     } else {
@@ -41,11 +50,12 @@ export class BookServiceService {
 
 
   getBookList() {
-    this.booklist = JSON.parse(localStorage.getItem('booklist'));
-    // tslint:disable-next-line: no-unused-expression
-    (this.booklist === null) && localStorage.setItem('booklist', '[]');
-
-    return this.booklist;
+    console.info('get books');
+    return this.http.get(this._dbURL + 'books/_all_docs?include_docs=true').pipe(map(books => {
+      console.log(books);
+      this.booklist = books;
+      return this.booklist;
+    }));
   }
 
   getBook() {
@@ -63,14 +73,15 @@ export class BookServiceService {
   getBookCover(isbn) {
     isbn = isbn.replace(/-/g, '');
     const url = 'https://www.googleapis.com/books/v1/volumes?q=isbn:' + isbn;
-    // tslint:disable-next-line: no-console
-    console.info(url);
+
     return this.http.get(url);
   }
 
   deleteBook(id) {
-    this.booklist.splice(this.booklist.findIndex(x => x.id === id), 1);
-    localStorage.setItem('booklist', JSON.stringify(this.booklist));
+    // this.booklist.splice(this.booklist.findIndex(x => x.id === id), 1);
+    console.log(id);
+    console.log(this.booklist);
+    // localStorage.setItem('booklist', JSON.stringify(this.booklist));
     return this.booklist;
   }
 }
