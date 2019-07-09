@@ -8,19 +8,28 @@ import { Book } from '../book';
   styleUrls: ['./display-book.component.scss']
 })
 export class DisplayBookComponent implements OnInit {
-  selected: any;
   selectedbook: Book;
+  booklist: any = { rows: [] };
   selectedbookcover: string;
+  message: string;
   constructor(private bookService: BookServiceService) { }
 
   ngOnInit() {
+    this.bookService.getBookList().subscribe(data => {
+      this.booklist = data;
+    });
   }
 
   displayBook() {
-    this.selected = this.bookService.getBook();
-    this.selectedbook = this.selected[0];
-    this.selectedbookcover = this.selected[1];
-    console.info(this.selected);
+    if (this.booklist.rows.length > 0) {
+      const id = Math.floor(Math.random() * this.booklist.rows.length);
+      const book = this.booklist.rows[id];
+      this.selectedbook = book;
+      this.bookService.deleteBook(book.id).subscribe(res => {
+        this.booklist.rows.splice(id, 1);
+      });
+    } else {
+      this.message = 'Es befindet sich kein Buch mehr in deinem Glass D:';
+    }
   }
-
 }

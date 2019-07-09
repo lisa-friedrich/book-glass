@@ -19,8 +19,9 @@ export class BooklistComponent implements OnInit {
   }
 
   deleteBook(index) {
-    this.bookservice.deleteBook(index);
-    this.ngOnInit();
+    this.bookservice.deleteBook(index).subscribe(data => {
+      this.ngOnInit();
+    });
   }
 
   searchBook(searchtext) {

@@ -3,8 +3,9 @@ $highlight: #64C4BD;
 $dark: #808080;
 $white: #FFFFFF;
 $alert: #F7AB71;
+$colors: $base, $highlight, $dark, #F0333C,#FFD17B, #FFC558,  #0A7F76, #2F56A3, #6D8DCC ;
 
-
+$repeat: 20;
 * {
   box-sizing: border-box;
   font-family: Arial, Helvetica, sans-serif;

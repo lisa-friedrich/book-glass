@@ -1,7 +1,19 @@
 <div>
   <h1>Was soll ich lesen?</h1>
   <div class="display_book_container" (click)="displayBook()">
-    <div class="glass"></div>
+    <div class="glass">
+      <div class="jar_lid">
+        <div class="round"></div>
+        <div class="lid_1"></div>
+        <div class="lid_2"></div>
+      </div>
+      <div class="book_holder_jar">
+        <div *ngFor="let book of booklist.rows" class="slips"></div>
+      </div>
+    </div>
+  </div>
+  <div class="frow message" *ngIf="message">
+    <p>{{message}}</p>
   </div>
   <div class="book" *ngIf="selectedbook">
     <div>
@@ -9,9 +21,9 @@
     </div>
     <div>
       <p>Dein nächstes Buch ist: </p>
-      <p>{{selectedbook.title}}</p>
-      <p>{{selectedbook.author}}</p>
-      <p>{{selectedbook.isbn}}</p>
+      <p>{{selectedbook.doc.title}}</p>
+      <p>{{selectedbook.doc.author}}</p>
+      <p>{{selectedbook.doc.isbn}}</p>
     </div>
   </div>
 </div>

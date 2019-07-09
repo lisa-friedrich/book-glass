@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Book } from '../book';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from "rxjs/operators";
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,56 +16,24 @@ export class BookServiceService {
     })
   };
 
-  saveBook(bookdata) {
-    let pass = true;
-    const key = 'book' + this.makeRandom();
-    for (const book of this.booklist.rows) {
-      // tslint:disable-next-line: no-unused-expression
-      (book.doc.title === bookdata.title && book.doc.author === bookdata.author) && (pass = false);
-    }
-
-    if (pass) {
-      bookdata.id = key;
-      //this.booklist.push(bookdata);
-      //localStorage.setItem('booklist', JSON.stringify(this.booklist));
-
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  makeRandom() {
-    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890[]';
-    const lengthOfCode = 20;
-    let text = '';
-    for (let i = 0; i < lengthOfCode; i++) {
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
-    }
-
-    return text;
-  }
-
-
-  getBookList() {
-    console.info('get books');
-    return this.http.get(this._dbURL + 'books/_all_docs?include_docs=true').pipe(map(books => {
-      console.log(books);
-      this.booklist = books;
-      return this.booklist;
+  saveBook(bookdata, id) {
+    bookdata = JSON.parse(JSON.stringify(bookdata));
+    return this.http.put(this._dbURL + 'books/' + id, bookdata).pipe(map(res => {
+      return res['ok'];
     }));
   }
 
-  getBook() {
-    const id: number = Math.floor(Math.random() * this.booklist.length);
-    const book = this.booklist[id];
-    let cover = '';
-    // this.deleteBook(id);
-    if (this.booklist[id].isbn) {
-      const isbn = this.booklist[id].isbn.replace(/-/g, '');
-      cover = 'http://covers.openlibrary.org/b/isbn/' + isbn + '-M.jpg';
-    }
-    return [book, cover];
+  getID() {
+    return this.http.get(this._dbURL + '_uuids').pipe(map(id => {
+      return id['uuids'];
+    }));
+  }
+
+  getBookList() {
+    return this.http.get(this._dbURL + 'books/_all_docs?include_docs=true').pipe(map(books => {
+      this.booklist = books;
+      return this.booklist;
+    }));
   }
 
   getBookCover(isbn) {
@@ -78,10 +44,9 @@ export class BookServiceService {
   }
 
   deleteBook(id) {
-    // this.booklist.splice(this.booklist.findIndex(x => x.id === id), 1);
-    console.log(id);
-    console.log(this.booklist);
-    // localStorage.setItem('booklist', JSON.stringify(this.booklist));
-    return this.booklist;
+    const book = this.booklist.rows.find(i => i.id === id);
+    return this.http.delete(this._dbURL + 'books/' + id + '?rev=' + book.doc._rev).pipe(map(res => {
+      return res;
+    }));
   }
 }

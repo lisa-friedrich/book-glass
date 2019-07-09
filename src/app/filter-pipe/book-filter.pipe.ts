@@ -6,8 +6,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class BookFilterPipe implements PipeTransform {
 
   transform(items: any[], filter: any, defaultFilter: boolean): any {
-    console.log(items);
-    console.log(filter);
     if (!filter) {
       return items;
     }
